@@ -1,0 +1,1656 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TemuKarir</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+          colors: {
+            primary: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              200: '#c7d2fe',
+              300: '#a5b4fc',
+              400: '#818cf8',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+              800: '#3730a3',
+              900: '#312e81',
+            },
+            slate: {
+              850: '#172033',
+            }
+          },
+          animation: {
+            'float': 'float 6s ease-in-out infinite',
+            'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'gradient': 'gradient 8s ease infinite',
+            'shimmer': 'shimmer 2s linear infinite',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': {
+                transform: 'translateY(0)'
+              },
+              '50%': {
+                transform: 'translateY(-10px)'
+              },
+            },
+            gradient: {
+              '0%, 100%': {
+                backgroundPosition: '0% 50%'
+              },
+              '50%': {
+                backgroundPosition: '100% 50%'
+              },
+            },
+            shimmer: {
+              '0%': {
+                backgroundPosition: '-200% 0'
+              },
+              '100%': {
+                backgroundPosition: '200% 0'
+              },
+            }
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    html {
+      height: 100%;
+    }
+
+    body {
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+      margin: 0;
+      padding: 0;
+    }
+
+    .main-wrapper {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    footer {
+      flex-shrink: 0;
+      margin-top: auto;
+    }
+
+    .hero-gradient {
+      background: linear-gradient(135deg, #0c4a6e 0%, #075985 25%, #0369a1 50%, #0284c7 75%, #0ea5e9 100%);
+    }
+
+    .hero-overlay {
+      background: radial-gradient(ellipse 100% 80% at 50% 20%, rgba(6, 140, 229, 0.8) 100%, transparent 50%),
+        linear-gradient(180deg, transparent 0%, rgba(206, 208, 209, 0.8) 10%);
+    }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .glass-dark {
+      background: #0c4a6e;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .card-shadow {}
+
+    .card-glow {}
+
+    .file-input-wrapper {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .file-input-wrapper input[type="file"] {
+      position: absolute;
+      left: 0;
+      top: 0;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+      z-index: 10;
+    }
+
+    .btn-primary {
+      background-color: #6366f1; /* Tailwind primary-500 */
+      border: none;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-primary:hover {
+      background-color: #4f46e5; /* Tailwind primary-600 */
+    }
+
+    .btn-primary:active {
+      background-color: #4338ca; /* Tailwind primary-700 */
+    }
+
+    .btn-success {
+      background-color: #22c55e; /* Tailwind green-500 */
+      border: none;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-success:hover {
+      background-color: #16a34a; /* Tailwind green-600 */
+    }
+
+    .loading {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 1s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .rotate-180 {
+      transform: rotate(180deg);
+    }
+
+    .text-gradient {
+      background: linear-gradient(135deg, #67e8f9 0%, #22d3ee 50%, #2dd4bf 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .text-shadow-lg {
+      text-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .border-gradient {
+      border: 2px solid transparent;
+      background: linear-gradient(white, white) padding-box,
+        linear-gradient(135deg, #6366f1, #a855f7) border-box;
+    }
+
+    .dropzone-active {
+      border-color: #6366f1 !important;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(168, 85, 247, 0.05)) !important;
+    }
+
+    .pattern-dots {
+      background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+
+    .glow-ring {
+      box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.1),
+        0 0 20px rgba(99, 102, 241, 0.1);
+    }
+
+    .job-card-hover:hover {
+      transform: translateX(4px);
+      border-left-color: #6366f1;
+    }
+
+    .shimmer-bg {
+      background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+      background-size: 200% 100%;
+      animation: shimmer 2s linear infinite;
+    }
+
+    /* Custom Scrollbar */
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #f1f5f9;
+      border-radius: 3px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: linear-gradient(135deg, #06b6d4, #14b8a6);
+      border-radius: 3px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(135deg, #0891b2, #0d9488);
+    }
+
+    /* Floating Shapes */
+    .floating-shape {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(60px);
+      opacity: 0.5;
+    }
+
+    .shape-1 {
+      width: 600px;
+      height: 600px;
+      background: linear-gradient(135deg, #38bdf8, #22d3ee);
+      top: -100px;
+      right: -100px;
+      animation: float 8s ease-in-out infinite;
+      opacity: 0.25;
+    }
+
+    .shape-2 {
+      width: 500px;
+      height: 500px;
+      background: linear-gradient(135deg, #22d3ee, #2dd4bf);
+      bottom: 20%;
+      left: -100px;
+      animation: float 10s ease-in-out infinite reverse;
+      opacity: 0.2;
+    }
+
+    .shape-3 {
+      width: 350px;
+      height: 350px;
+      background: linear-gradient(135deg, #67e8f9, #38bdf8);
+      top: 30%;
+      left: 20%;
+      animation: float 12s ease-in-out infinite;
+      opacity: 0.18;
+    }
+
+    .hero-section {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Icon Pattern Ornaments */
+    .icon-ornament {
+      position: absolute;
+      color: rgba(255, 255, 255, 0.25);
+      pointer-events: none;
+      font-size: inherit;
+    }
+
+    .icon-ornament.float-1 {
+      animation: float 8s ease-in-out infinite;
+    }
+
+    .icon-ornament.float-2 {
+      animation: float 10s ease-in-out infinite reverse;
+    }
+
+    .icon-ornament.float-3 {
+      animation: float 12s ease-in-out infinite;
+    }
+
+    .icon-ornament.float-4 {
+      animation: float 9s ease-in-out infinite reverse;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
+</head>
+
+<body class="hero-gradient pattern-dots relative overflow-x-hidden">
+  <!-- Floating Background Shapes Container -->
+  <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+    <div class="floating-shape shape-1"></div>
+    <div class="floating-shape shape-2"></div>
+    <div class="floating-shape shape-3"></div>
+  </div>
+
+  <div class="main-wrapper relative z-10">
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-sky-900/80 backdrop-blur-lg border-b border-white/10">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-400 to-teal-500 flex items-center justify-center shadow-lg shadow-cyan-500/30">
+              <i class="fas fa-briefcase text-white text-lg"></i>
+            </div>
+            <div>
+              <span class="text-xl font-bold text-white">Temu</span><span class="text-xl font-bold text-gradient">Karir</span>
+            </div>
+          </div>
+          <div class="hidden md:flex items-center gap-6">
+            <a href="#cara-kerja" class="text-white/80 hover:text-white transition-colors text-sm font-medium">Cara Kerja</a>
+            <a href="#tentang" class="text-white/80 hover:text-white transition-colors text-sm font-medium">Tentang Kami</a>
+            <a href="#contact" class="px-5 py-2 rounded-lg bg-gradient-to-r from-cyan-400 to-teal-500 text-white text-sm font-semibold hover:from-cyan-500 hover:to-teal-600 transition-all shadow-lg shadow-cyan-500/25">Hubungi</a>
+          </div>
+          <button class="md:hidden text-white" id="mobileMenuBtn">
+            <i class="fas fa-bars text-xl" id="menuIcon"></i>
+          </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div class="md:hidden hidden" id="mobileMenu">
+          <div class="px-2 pt-2 pb-4 space-y-2 bg-sky-900/95 backdrop-blur-lg border-t border-white/10">
+            <a href="#cara-kerja" class="mobile-link block px-4 py-3 rounded-lg text-white/80 hover:text-white hover:bg-white/10 transition-colors font-medium">Cara Kerja</a>
+            <a href="#tentang" class="mobile-link block px-4 py-3 rounded-lg text-white/80 hover:text-white hover:bg-white/10 transition-colors font-medium">Tentang Kami</a>
+            <a href="#contact" class="mobile-link block px-4 py-3 rounded-lg bg-gradient-to-r from-cyan-400 to-teal-500 text-white font-semibold text-center">Hubungi</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section - Full Page -->
+    <section class="hero-section relative">
+      <!-- Dark Overlay for better text visibility -->
+      <div class="absolute inset-0 hero-overlay z-0"></div>
+
+      <!-- Icon Pattern Ornaments -->
+      <div class="absolute inset-0 overflow-hidden pointer-events-none z-0">
+        <i class="fas fa-briefcase icon-ornament float-1 text-4xl" style="top: 15%; left: 8%;"></i>
+        <i class="fas fa-file-alt icon-ornament float-2 text-3xl" style="top: 25%; right: 12%;"></i>
+        <i class="fas fa-user-tie icon-ornament float-3 text-5xl" style="top: 60%; left: 5%;"></i>
+        <i class="fas fa-laptop-code icon-ornament float-4 text-4xl" style="top: 70%; right: 8%;"></i>
+        <i class="fas fa-graduation-cap icon-ornament float-1 text-3xl" style="top: 40%; left: 15%;"></i>
+        <i class="fas fa-chart-line icon-ornament float-2 text-4xl" style="top: 80%; left: 20%;"></i>
+        <i class="fas fa-building icon-ornament float-3 text-5xl" style="top: 20%; right: 20%;"></i>
+        <i class="fas fa-id-card icon-ornament float-4 text-3xl" style="top: 50%; right: 15%;"></i>
+        <i class="fas fa-handshake icon-ornament float-1 text-4xl" style="top: 85%; right: 25%;"></i>
+        <i class="fas fa-search icon-ornament float-2 text-3xl" style="top: 35%; right: 5%;"></i>
+        <i class="fas fa-envelope icon-ornament float-3 text-3xl" style="top: 10%; left: 25%;"></i>
+        <i class="fas fa-star icon-ornament float-4 text-2xl" style="top: 45%; left: 3%;"></i>
+      </div>
+
+      <div class="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8 pt-16 relative z-10">
+        <div class="max-w-4xl mx-auto text-center">
+          <div class="inline-flex items-center gap-2 p-2 rounded-full bg-white/15 border border-white/25 my-4 backdrop-blur-sm">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span class="text-white text-sm font-medium">AI-Powered Job Matching</span>
+          </div>
+
+          <h1 class="text-5xl sm:text-6xl lg:text-7xl font-extrabold mb-8 leading-tight">
+            <span class="text-white text-shadow-lg">Temukan Karir</span>
+            <br>
+            <span class="text-gradient drop-shadow-2xl">Impianmu</span>
+          </h1>
+
+          <p class="text-xl sm:text-2xl text-white/80 max-w-2xl mx-auto mb-10 leading-relaxed">
+            Upload CV-mu dan biarkan teknologi AI kami menemukan lowongan pekerjaan yang paling cocok dengan keahlianmu.
+          </p>
+
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+            <a href="#mulai" class="group bg-white text-sky-700 px-8 py-4 rounded-xl font-bold text-lg flex items-center gap-3 shadow-xl hover:shadow-2xl hover:scale-105 transition-all">
+              <i class="fas fa-rocket"></i>
+              <span>Mulai Sekarang</span>
+              <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+            </a>
+            <a href="#cara-kerja" class="px-8 py-4 rounded-xl font-semibold text-lg flex items-center gap-3 text-white bg-white/10 border border-white/25 hover:bg-white/20 transition-all backdrop-blur-sm">
+              <i class="fas fa-play-circle"></i>
+              <span>Cara Kerja</span>
+            </a>
+          </div>
+
+          <div class="flex flex-wrap items-center justify-center gap-6 text-white/90 mb-16 sm:mb-24">
+            <div class="flex items-center gap-2 bg-white/10 px-5 py-2.5 rounded-full backdrop-blur-sm">
+              <i class="fas fa-check-circle text-emerald-400"></i>
+              <span class="font-medium">100% Gratis</span>
+            </div>
+            <div class="flex items-center gap-2 bg-white/10 px-5 py-2.5 rounded-full backdrop-blur-sm">
+              <i class="fas fa-bolt text-yellow-400"></i>
+              <span class="font-medium">Analisis Instan</span>
+            </div>
+            <div class="flex items-center gap-2 bg-white/10 px-5 py-2.5 rounded-full backdrop-blur-sm">
+              <i class="fas fa-briefcase text-cyan-300"></i>
+              <span class="font-medium">Ribuan Lowongan</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Wave Transition to Tentang -->
+      <div class="absolute bottom-0 left-0 right-0 z-20">
+        <svg viewBox="0 0 1200 120" preserveAspectRatio="none" class="w-full h-20 sm:h-32">
+          <path d="M0,60 C300,120 600,0 900,60 C1050,90 1150,80 1200,60 L1200,120 L0,120 Z" fill="#082f49"></path>
+        </svg>
+      </div>
+    </section>
+
+    <!-- Tentang Section -->
+    <section id="tentang" class="min-h-screen py-8 px-4 sm:px-6 lg:px-8 bg-sky-950 scroll-mt-16 relative overflow-hidden">
+      <!-- Wave Transition to Cara Kerja -->
+      <div class="absolute -bottom-1 left-0 right-0 z-20">
+        <svg viewBox="0 0 1200 120" preserveAspectRatio="none" class="w-full h-20 sm:h-28" style="display: block;">
+          <path d="M0,60 C150,100 350,0 600,60 C850,120 1050,20 1200,60 L1200,120 L0,120 Z" fill="#f0fdfa"></path>
+        </svg>
+      </div>
+
+      <!-- Background Ornaments -->
+      <div class="absolute inset-0 pointer-events-none">
+        <i class="fas fa-users icon-ornament float-2 text-5xl text-white/15" style="top: 10%; right: 8%;"></i>
+        <i class="fas fa-heart icon-ornament float-1 text-4xl text-cyan-300/20" style="top: 40%; left: 5%;"></i>
+        <i class="fas fa-star icon-ornament float-3 text-3xl text-teal-300/15" style="bottom: 15%; right: 10%;"></i>
+        <i class="fas fa-gem icon-ornament float-4 text-4xl text-white/20" style="bottom: 25%; left: 8%;"></i>
+      </div>
+
+      <div class="max-w-7xl mx-auto w-full relative z-10">
+        <div class="grid lg:grid-cols-2 gap-8 items-center mb-6">
+          <!-- Left: Mission -->
+          <div>
+            <h2 class="text-4xl sm:text-5xl font-bold text-white mb-6">Tentang <span class="text-gradient">TemuKarir</span></h2>
+            <p class="text-white/70 text-lg leading-relaxed mb-6">
+              TemuKarir adalah platform pencari kerja berbasis AI yang membantu Anda menemukan pekerjaan impian dengan lebih cepat dan akurat. Kami percaya bahwa setiap orang berhak mendapatkan kesempatan karir yang sesuai dengan kemampuan mereka.
+            </p>
+            <p class="text-white/60 leading-relaxed mb-8">
+              Dengan teknologi machine learning terkini, kami menganalisis CV Anda dan mencocokkannya dengan ribuan lowongan pekerjaan dari berbagai perusahaan terkemuka di Indonesia.
+            </p>
+            <a href="#mulai" class="inline-flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-teal-500 text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg hover:shadow-cyan-500/30 transition-all">
+              <span>Mulai Sekarang</span>
+              <i class="fas fa-arrow-right"></i>
+            </a>
+          </div>
+
+          <!-- Right: Big Card -->
+          <div class="glass-card rounded-3xl p-8 relative">
+            <div class="absolute -top-6 -right-6 w-24 h-24 bg-gradient-to-br from-cyan-400 to-teal-500 rounded-2xl flex items-center justify-center shadow-xl rotate-12">
+              <i class="fas fa-rocket text-white text-3xl -rotate-12"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-slate-800 mb-6">Mengapa Memilih Kami?</h3>
+            <div class="space-y-4">
+              <div class="flex items-start gap-4">
+                <div class="w-10 h-10 rounded-xl bg-cyan-100 flex items-center justify-center flex-shrink-0">
+                  <i class="fas fa-check text-cyan-600"></i>
+                </div>
+                <div>
+                  <h4 class="font-semibold text-slate-800">Analisis CV Akurat</h4>
+                  <p class="text-slate-500 text-sm">AI kami membaca dan memahami CV dengan presisi tinggi</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-4">
+                <div class="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center flex-shrink-0">
+                  <i class="fas fa-check text-emerald-600"></i>
+                </div>
+                <div>
+                  <h4 class="font-semibold text-slate-800">Matching Cerdas</h4>
+                  <p class="text-slate-500 text-sm">Algoritma canggih mencocokkan skill dengan lowongan</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-4">
+                <div class="w-10 h-10 rounded-xl bg-purple-100 flex items-center justify-center flex-shrink-0">
+                  <i class="fas fa-check text-purple-600"></i>
+                </div>
+                <div>
+                  <h4 class="font-semibold text-slate-800">Database Terupdate</h4>
+                  <p class="text-slate-500 text-sm">Ribuan lowongan baru setiap hari dari berbagai sumber</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-4">
+                <div class="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center flex-shrink-0">
+                  <i class="fas fa-check text-amber-600"></i>
+                </div>
+                <div>
+                  <h4 class="font-semibold text-slate-800">100% Gratis</h4>
+                  <p class="text-slate-500 text-sm">Tidak ada biaya tersembunyi, selamanya gratis</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Features Grid -->
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16 sm:mb-20">
+          <div class="glass-card rounded-2xl p-6 text-center hover:scale-105 transition-transform">
+            <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-500 to-cyan-600 flex items-center justify-center mx-auto mb-4 shadow-lg shadow-cyan-500/30">
+              <i class="fas fa-robot text-white text-2xl"></i>
+            </div>
+            <h3 class="font-bold text-slate-800 text-lg mb-2">AI-Powered</h3>
+            <p class="text-slate-500 text-sm">Teknologi AI canggih untuk analisis CV yang akurat</p>
+          </div>
+          <div class="glass-card rounded-2xl p-6 text-center hover:scale-105 transition-transform">
+            <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center mx-auto mb-4 shadow-lg shadow-emerald-500/30">
+              <i class="fas fa-bolt text-white text-2xl"></i>
+            </div>
+            <h3 class="font-bold text-slate-800 text-lg mb-2">Super Cepat</h3>
+            <p class="text-slate-500 text-sm">Hasil analisis dalam hitungan detik saja</p>
+          </div>
+          <div class="glass-card rounded-2xl p-6 text-center hover:scale-105 transition-transform">
+            <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center mx-auto mb-4 shadow-lg shadow-purple-500/30">
+              <i class="fas fa-shield-halved text-white text-2xl"></i>
+            </div>
+            <h3 class="font-bold text-slate-800 text-lg mb-2">Aman & Privat</h3>
+            <p class="text-slate-500 text-sm">Data Anda terlindungi dan tidak disimpan</p>
+          </div>
+          <div class="glass-card rounded-2xl p-6 text-center hover:scale-105 transition-transform">
+            <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-500 to-amber-600 flex items-center justify-center mx-auto mb-4 shadow-lg shadow-amber-500/30">
+              <i class="fas fa-gift text-white text-2xl"></i>
+            </div>
+            <h3 class="font-bold text-slate-800 text-lg mb-2">Gratis Selamanya</h3>
+            <p class="text-slate-500 text-sm">100% tanpa biaya, tanpa batasan</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cara Kerja Section -->
+    <section id="cara-kerja" class="min-h-screen py-8 pt-8 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-teal-50 to-cyan-100 scroll-mt-16 relative overflow-hidden">
+      <!-- Wave Transition to Mulai -->
+      <div class="absolute -bottom-1 left-0 right-0 z-20">
+        <svg viewBox="0 0 1200 120" preserveAspectRatio="none" class="w-full h-20 sm:h-28" style="display: block;">
+          <path d="M0,80 C300,20 600,100 900,40 C1050,10 1150,30 1200,20 L1200,120 L0,120 Z" fill="#082f49"></path>
+        </svg>
+      </div>
+
+      <!-- Background Ornaments -->
+      <div class="absolute inset-0 pointer-events-none">
+        <i class="fas fa-cogs icon-ornament float-1 text-5xl text-cyan-600/15" style="top: 15%; left: 5%;"></i>
+        <i class="fas fa-rocket icon-ornament float-2 text-4xl text-teal-600/15" style="top: 25%; right: 8%;"></i>
+        <i class="fas fa-lightbulb icon-ornament float-3 text-3xl text-cyan-500/15" style="bottom: 20%; left: 10%;"></i>
+        <i class="fas fa-chart-pie icon-ornament float-4 text-4xl text-teal-500/15" style="bottom: 30%; right: 5%;"></i>
+      </div>
+
+      <div class="max-w-7xl mx-auto w-full relative z-10">
+        <div class="text-center mb-10">
+          <h2 class="text-4xl sm:text-5xl font-bold text-slate-800 mb-4">Cara Kerja</h2>
+          <p class="text-slate-600 text-xl max-w-2xl mx-auto">Tiga langkah mudah untuk menemukan karir impianmu</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-6 mb-10">
+          <!-- Step 1 -->
+          <div class="glass-card rounded-3xl p-8 text-center relative group hover:scale-105 transition-transform">
+            <div class="absolute -top-4 left-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-cyan-500 text-white font-bold flex items-center justify-center shadow-lg">1</div>
+            <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-cyan-500 to-teal-500 flex items-center justify-center mx-auto mb-6 shadow-xl shadow-cyan-500/30 group-hover:shadow-cyan-500/50 transition-shadow">
+              <i class="fas fa-cloud-upload-alt text-white text-3xl"></i>
+            </div>
+            <h3 class="font-bold text-slate-800 text-xl mb-3">Upload CV</h3>
+            <p class="text-slate-600 mb-4">Upload file CV dalam format PDF. Sistem kami akan membaca dan mengekstrak informasi penting dari dokumenmu.</p>
+            <div class="flex items-center justify-center gap-2 text-cyan-600 text-sm font-medium">
+              <i class="fas fa-file-pdf"></i>
+              <span>Format PDF</span>
+            </div>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="glass-card rounded-3xl p-8 text-center relative group hover:scale-105 transition-transform">
+            <div class="absolute -top-4 left-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-purple-500 text-white font-bold flex items-center justify-center shadow-lg">2</div>
+            <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-purple-500 to-indigo-500 flex items-center justify-center mx-auto mb-6 shadow-xl shadow-purple-500/30 group-hover:shadow-purple-500/50 transition-shadow">
+              <i class="fas fa-brain text-white text-3xl"></i>
+            </div>
+            <h3 class="font-bold text-slate-800 text-xl mb-3">Analisis AI</h3>
+            <p class="text-slate-600 mb-4">AI canggih kami menganalisis keahlian, pengalaman, dan kualifikasimu untuk mencocokkan dengan lowongan.</p>
+            <div class="flex items-center justify-center gap-2 text-purple-600 text-sm font-medium">
+              <i class="fas fa-microchip"></i>
+              <span>Machine Learning</span>
+            </div>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="glass-card rounded-3xl p-8 text-center relative group hover:scale-105 transition-transform">
+            <div class="absolute -top-4 left-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-emerald-500 text-white font-bold flex items-center justify-center shadow-lg">3</div>
+            <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center mx-auto mb-6 shadow-xl shadow-emerald-500/30 group-hover:shadow-emerald-500/50 transition-shadow">
+              <i class="fas fa-briefcase text-white text-3xl"></i>
+            </div>
+            <h3 class="font-bold text-slate-800 text-xl mb-3">Temukan Lowongan</h3>
+            <p class="text-slate-600 mb-4">Dapatkan rekomendasi lowongan pekerjaan yang paling sesuai dengan profil dan keahlianmu.</p>
+            <div class="flex items-center justify-center gap-2 text-emerald-600 text-sm font-medium">
+              <i class="fas fa-bullseye"></i>
+              <span>Akurasi Tinggi</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16 sm:mb-20">
+          <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-6 text-center border border-cyan-200 shadow-lg">
+            <div class="text-3xl font-bold text-cyan-600 mb-1">10rb+</div>
+            <div class="text-slate-500 text-sm">CV Dianalisis</div>
+          </div>
+          <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-6 text-center border border-cyan-200 shadow-lg">
+            <div class="text-3xl font-bold text-teal-600 mb-1">50rb+</div>
+            <div class="text-slate-500 text-sm">Lowongan</div>
+          </div>
+          <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-6 text-center border border-cyan-200 shadow-lg">
+            <div class="text-3xl font-bold text-emerald-600 mb-1">95%</div>
+            <div class="text-slate-500 text-sm">Kepuasan</div>
+          </div>
+          <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-6 text-center border border-cyan-200 shadow-lg">
+            <div class="text-3xl font-bold text-purple-600 mb-1">&lt;5s</div>
+            <div class="text-slate-500 text-sm">Waktu Analisis</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Content Section -->
+    <section id="mulai" class="relative min-h-screen py-8 px-4 sm:px-6 lg:px-8 flex items-start scroll-mt-12 overflow-hidden bg-sky-950">
+      <!-- Wave Transition to Privacy -->
+      <div class="absolute -bottom-1 left-0 right-0 z-20">
+        <svg viewBox="0 0 1200 120" preserveAspectRatio="none" class="w-full h-20 sm:h-28" style="display: block;">
+          <path d="M0,40 C200,100 400,20 600,60 C800,100 1000,30 1200,80 L1200,120 L0,120 Z" fill="#ecfeff"></path>
+        </svg>
+      </div>
+
+      <div class="w-full max-w-7xl mx-auto relative z-10">
+
+        <!-- Section Header (Guide Style) -->
+        <div class="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mb-6">
+          <div class="flex items-center gap-2 bg-sky-900/80 backdrop-blur-sm rounded-full px-3 py-1.5 border border-sky-700 shadow-lg">
+            <span class="w-5 h-5 rounded-full bg-cyan-500 text-white text-xs flex items-center justify-center font-bold">1</span>
+            <span class="text-white text-sm font-medium">Upload CV</span>
+          </div>
+          <i class="fas fa-arrow-right text-sky-700 text-xs hidden sm:block"></i>
+          <div class="flex items-center gap-2 bg-sky-900/80 backdrop-blur-sm rounded-full px-3 py-1.5 border border-sky-700 shadow-lg">
+            <span class="w-5 h-5 rounded-full bg-purple-500 text-white text-xs flex items-center justify-center font-bold">2</span>
+            <span class="text-white text-sm font-medium">Pilih Profesi</span>
+          </div>
+          <i class="fas fa-arrow-right text-sky-700 text-xs hidden sm:block"></i>
+          <div class="flex items-center gap-2 bg-sky-900/80 backdrop-blur-sm rounded-full px-3 py-1.5 border border-sky-700 shadow-lg">
+            <span class="w-5 h-5 rounded-full bg-emerald-500 text-white text-xs flex items-center justify-center font-bold">3</span>
+            <span class="text-white text-sm font-medium">Lihat Lowongan</span>
+          </div>
+        </div>
+
+        <!-- Main Grid -->
+        <div class="grid lg:grid-cols-5 gap-5 lg:gap-6">
+
+          <!-- Left Column - Form (Compact) -->
+          <div class="lg:col-span-2">
+            <div class="glass-card rounded-2xl p-5">
+
+              <!-- Upload Section -->
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-cyan-500 to-teal-500 flex items-center justify-center text-white text-sm font-bold shadow-lg">1</div>
+                <h3 class="font-bold text-slate-800">Upload CV</h3>
+              </div>
+
+              <div
+                class="file-input-wrapper border-2 border-dashed border-slate-200 rounded-xl p-5 text-center hover:border-cyan-400 hover:bg-cyan-50/50 transition-all cursor-pointer group mb-4"
+                id="dropzone">
+                <input type="file" id="cvfile" accept=".pdf" onchange="updateFileName()" />
+                <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-100 to-teal-100 flex items-center justify-center mx-auto mb-2 group-hover:scale-110 transition-transform">
+                  <i class="fas fa-cloud-upload-alt text-lg text-cyan-600"></i>
+                </div>
+                <p class="text-slate-700 font-medium text-sm" id="file-label">Klik atau drag PDF</p>
+              </div>
+
+              <button
+                onclick="analyzeCV()"
+                id="analyzeBtn"
+                class="w-full btn-primary text-white px-4 py-3 rounded-xl font-semibold flex items-center justify-center gap-2 shadow-lg shadow-cyan-500/25 text-sm">
+                <i class="fas fa-wand-magic-sparkles"></i>
+                <span>Analisis CV</span>
+              </button>
+
+              <!-- Divider -->
+              <div class="flex items-center gap-3 my-5">
+                <div class="flex-1 h-px bg-slate-200"></div>
+                <span class="text-slate-400 text-xs">Lanjut</span>
+                <div class="flex-1 h-px bg-slate-200"></div>
+              </div>
+
+              <!-- Role Selection -->
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-9 h-9 rounded-lg bg-slate-200 text-slate-500 flex items-center justify-center text-sm font-bold" id="step2">2</div>
+                <h3 class="font-bold text-slate-800">Pilih Profesi</h3>
+              </div>
+
+              <div class="relative mb-4">
+                <select
+                  id="roles"
+                  class="w-full border-2 border-slate-200 p-3 rounded-xl appearance-none bg-white focus:border-cyan-500 focus:ring-4 focus:ring-cyan-100 transition-all font-medium text-slate-700 pr-10 text-sm">
+                  <option value="">-- Analisis CV dulu --</option>
+                </select>
+                <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+                  <i class="fas fa-chevron-down text-slate-400 text-sm"></i>
+                </div>
+              </div>
+
+              <button
+                onclick="searchJob()"
+                id="searchBtn"
+                class="w-full btn-success text-white px-4 py-3 rounded-xl font-semibold flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/25 text-sm">
+                <i class="fas fa-magnifying-glass"></i>
+                <span>Cari Lowongan</span>
+              </button>
+
+              <!-- Trust Badges -->
+              <div class="flex items-center justify-center gap-4 mt-4 pt-4 border-t border-slate-100 text-slate-400 text-xs">
+                <div class="flex items-center gap-1.5">
+                  <i class="fas fa-shield-halved text-emerald-500"></i>
+                  <span>Aman</span>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <i class="fas fa-bolt text-yellow-500"></i>
+                  <span>Cepat</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column - Results -->
+          <div class="lg:col-span-3">
+            <div class="glass-card rounded-2xl p-5 h-full flex flex-col">
+              <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center gap-3">
+                  <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center shadow-lg">
+                    <i class="fas fa-clipboard-list text-white text-sm"></i>
+                  </div>
+                  <h3 class="font-bold text-slate-800">Hasil Pencarian</h3>
+                </div>
+                <div class="flex items-center gap-1.5 px-2 py-1 rounded-full bg-emerald-50 text-emerald-600 text-xs font-medium">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                  <span>Live</span>
+                </div>
+              </div>
+
+              <div
+                id="result"
+                class="bg-slate-50 border border-slate-200 rounded-xl p-4 text-slate-600 flex-1 min-h-[350px] lg:min-h-[420px] overflow-y-auto overflow-x-hidden custom-scrollbar">
+                <div class="flex flex-col items-center justify-center h-full">
+                  <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center mb-4">
+                    <i class="fas fa-inbox text-2xl text-slate-300"></i>
+                  </div>
+                  <h4 class="text-slate-500 font-semibold mb-1 text-sm">Belum Ada Hasil</h4>
+                  <p class="text-slate-400 text-xs text-center max-w-[180px]">
+                    Upload CV dan analisis untuk melihat lowongan
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Extra padding for wave -->
+      <div class="h-24 sm:h-32"></div>
+    </section>
+
+    <!-- Privacy Section -->
+    <section id="privacy" class="min-h-screen py-8 pt-8 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-cyan-50 to-teal-100 scroll-mt-16 relative overflow-hidden">
+      <!-- Wave Transition to Terms -->
+      <div class="absolute -bottom-1 left-0 right-0 z-20">
+        <svg viewBox="0 0 1200 120" preserveAspectRatio="none" class="w-full h-20 sm:h-28" style="display: block;">
+          <path d="M0,80 C150,20 350,100 600,40 C850,0 1050,80 1200,30 L1200,120 L0,120 Z" fill="#082f49"></path>
+        </svg>
+      </div>
+
+      <!-- Background Ornaments -->
+      <div class="absolute inset-0 pointer-events-none">
+        <i class="fas fa-lock icon-ornament float-1 text-5xl text-cyan-600/15" style="top: 12%; right: 6%;"></i>
+        <i class="fas fa-eye-slash icon-ornament float-2 text-4xl text-teal-600/15" style="top: 50%; left: 4%;"></i>
+        <i class="fas fa-database icon-ornament float-3 text-3xl text-cyan-500/15" style="bottom: 20%; right: 10%;"></i>
+      </div>
+
+      <div class="max-w-7xl mx-auto w-full relative z-10">
+        <div class="text-center mb-10">
+          <h2 class="text-4xl sm:text-5xl font-bold text-slate-800 mb-4">Kebijakan Privasi</h2>
+          <p class="text-slate-600 text-lg max-w-2xl mx-auto">Kami berkomitmen menjaga keamanan dan privasi data Anda</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16 sm:mb-20">
+          <div class="glass-card rounded-2xl p-6 hover:scale-105 transition-transform">
+            <div class="w-14 h-14 rounded-xl bg-cyan-100 flex items-center justify-center mb-4">
+              <i class="fas fa-file-import text-cyan-600 text-2xl"></i>
+            </div>
+            <h3 class="font-bold text-slate-800 text-lg mb-2">Pengumpulan Data</h3>
+            <p class="text-slate-600 text-sm">Kami hanya mengumpulkan informasi yang Anda berikan melalui upload CV untuk keperluan analisis pekerjaan.</p>
+          </div>
+
+          <div class="glass-card rounded-2xl p-6 hover:scale-105 transition-transform">
+            <div class="w-14 h-14 rounded-xl bg-emerald-100 flex items-center justify-center mb-4">
+              <i class="fas fa-cogs text-emerald-600 text-2xl"></i>
+            </div>
+            <h3 class="font-bold text-slate-800 text-lg mb-2">Penggunaan Data</h3>
+            <p class="text-slate-600 text-sm">Data CV Anda digunakan semata-mata untuk menganalisis dan mencocokkan dengan lowongan pekerjaan yang tersedia.</p>
+          </div>
+
+          <div class="glass-card rounded-2xl p-6 hover:scale-105 transition-transform">
+            <div class="w-14 h-14 rounded-xl bg-purple-100 flex items-center justify-center mb-4">
+              <i class="fas fa-lock text-purple-600 text-2xl"></i>
+            </div>
+            <h3 class="font-bold text-slate-800 text-lg mb-2">Keamanan</h3>
+            <p class="text-slate-600 text-sm">Kami menerapkan langkah-langkah keamanan untuk melindungi data Anda dari akses tidak sah.</p>
+          </div>
+
+          <div class="glass-card rounded-2xl p-6 hover:scale-105 transition-transform">
+            <div class="w-14 h-14 rounded-xl bg-amber-100 flex items-center justify-center mb-4">
+              <i class="fas fa-clock text-amber-600 text-2xl"></i>
+            </div>
+            <h3 class="font-bold text-slate-800 text-lg mb-2">Penyimpanan</h3>
+            <p class="text-slate-600 text-sm">CV yang diupload diproses secara real-time dan tidak disimpan secara permanen di server kami.</p>
+          </div>
+
+          <div class="glass-card rounded-2xl p-6 hover:scale-105 transition-transform">
+            <div class="w-14 h-14 rounded-xl bg-rose-100 flex items-center justify-center mb-4">
+              <i class="fas fa-user-shield text-rose-600 text-2xl"></i>
+            </div>
+            <h3 class="font-bold text-slate-800 text-lg mb-2">Hak Anda</h3>
+            <p class="text-slate-600 text-sm">Anda berhak untuk tidak menggunakan layanan ini jika tidak setuju dengan kebijakan privasi kami.</p>
+          </div>
+
+          <div class="glass-card rounded-2xl p-6 hover:scale-105 transition-transform">
+            <div class="w-14 h-14 rounded-xl bg-indigo-100 flex items-center justify-center mb-4">
+              <i class="fas fa-ban text-indigo-600 text-2xl"></i>
+            </div>
+            <h3 class="font-bold text-slate-800 text-lg mb-2">Tidak Dijual</h3>
+            <p class="text-slate-600 text-sm">Kami tidak pernah menjual atau membagikan data pribadi Anda kepada pihak ketiga manapun.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Terms Section -->
+    <section id="terms" class="min-h-screen py-8 pt-8 px-4 sm:px-6 lg:px-8 bg-sky-950 scroll-mt-16 relative overflow-hidden">
+      <!-- Wave Transition to Contact -->
+      <div class="absolute -bottom-1 left-0 right-0 z-20">
+        <svg viewBox="0 0 1200 120" preserveAspectRatio="none" class="w-full h-20 sm:h-28" style="display: block;">
+          <path d="M0,20 C200,80 400,10 600,60 C800,110 1000,40 1200,80 L1200,120 L0,120 Z" fill="#f0fdfa"></path>
+        </svg>
+      </div>
+
+      <!-- Background Ornaments -->
+      <div class="absolute inset-0 pointer-events-none">
+        <i class="fas fa-file-contract icon-ornament float-2 text-5xl text-white/15" style="top: 15%; left: 6%;"></i>
+        <i class="fas fa-gavel icon-ornament float-1 text-4xl text-cyan-300/20" style="top: 45%; right: 5%;"></i>
+        <i class="fas fa-balance-scale icon-ornament float-3 text-4xl text-teal-300/15" style="bottom: 18%; left: 8%;"></i>
+      </div>
+
+      <div class="max-w-7xl mx-auto w-full relative z-10">
+        <div class="text-center mb-10">
+          <h2 class="text-4xl sm:text-5xl font-bold text-white mb-4">Syarat & Ketentuan</h2>
+          <p class="text-white/70 text-lg max-w-2xl mx-auto">Harap baca dengan seksama sebelum menggunakan layanan kami</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-6 mb-20 sm:mb-24">
+          <div class="glass-card rounded-2xl p-6 hover:scale-[1.02] transition-transform">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 rounded-xl bg-cyan-100 flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-handshake text-cyan-600 text-xl"></i>
+              </div>
+              <div>
+                <h3 class="font-bold text-slate-800 text-lg mb-2">Penerimaan</h3>
+                <p class="text-slate-600 text-sm">Dengan menggunakan TemuKarir, Anda menyetujui syarat dan ketentuan ini secara penuh.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="glass-card rounded-2xl p-6 hover:scale-[1.02] transition-transform">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 rounded-xl bg-emerald-100 flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-server text-emerald-600 text-xl"></i>
+              </div>
+              <div>
+                <h3 class="font-bold text-slate-800 text-lg mb-2">Layanan</h3>
+                <p class="text-slate-600 text-sm">TemuKarir menyediakan layanan analisis CV dan pencarian lowongan berbasis AI. Hasil analisis bersifat rekomendasi.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="glass-card rounded-2xl p-6 hover:scale-[1.02] transition-transform">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-exclamation-triangle text-purple-600 text-xl"></i>
+              </div>
+              <div>
+                <h3 class="font-bold text-slate-800 text-lg mb-2">Tanggung Jawab</h3>
+                <p class="text-slate-600 text-sm">Kami tidak menjamin ketersediaan atau kecocokan lowongan. Keputusan melamar sepenuhnya di tangan pengguna.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="glass-card rounded-2xl p-6 hover:scale-[1.02] transition-transform">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 rounded-xl bg-amber-100 flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-file-alt text-amber-600 text-xl"></i>
+              </div>
+              <div>
+                <h3 class="font-bold text-slate-800 text-lg mb-2">Konten</h3>
+                <p class="text-slate-600 text-sm">Anda bertanggung jawab atas keakuratan informasi dalam CV yang diupload ke platform kami.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="glass-card rounded-2xl p-6 hover:scale-[1.02] transition-transform">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 rounded-xl bg-rose-100 flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-sync-alt text-rose-600 text-xl"></i>
+              </div>
+              <div>
+                <h3 class="font-bold text-slate-800 text-lg mb-2">Perubahan</h3>
+                <p class="text-slate-600 text-sm">Kami berhak mengubah syarat dan ketentuan sewaktu-waktu tanpa pemberitahuan sebelumnya.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="glass-card rounded-2xl p-6 hover:scale-[1.02] transition-transform">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 rounded-xl bg-indigo-100 flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-user-check text-indigo-600 text-xl"></i>
+              </div>
+              <div>
+                <h3 class="font-bold text-slate-800 text-lg mb-2">Penggunaan Wajar</h3>
+                <p class="text-slate-600 text-sm">Layanan ini harus digunakan secara wajar dan tidak untuk tujuan yang melanggar hukum.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="min-h-screen py-8 pt-8 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-teal-50 to-cyan-100 scroll-mt-16 relative overflow-hidden">
+      <!-- Wave Transition to Footer -->
+      <div class="absolute -bottom-1 left-0 right-0 z-20">
+        <svg viewBox="0 0 1200 120" preserveAspectRatio="none" class="w-full h-16 sm:h-20" style="display: block;">
+          <path d="M0,60 C300,100 600,20 900,70 C1050,90 1150,60 1200,40 L1200,120 L0,120 Z" fill="#082f49"></path>
+        </svg>
+      </div>
+
+      <!-- Background Ornaments -->
+      <div class="absolute inset-0 pointer-events-none">
+        <i class="fas fa-envelope icon-ornament float-1 text-5xl text-cyan-600/15" style="top: 12%; left: 5%;"></i>
+        <i class="fas fa-comments icon-ornament float-2 text-4xl text-teal-600/15" style="top: 35%; right: 6%;"></i>
+        <i class="fas fa-paper-plane icon-ornament float-3 text-4xl text-cyan-500/15" style="bottom: 25%; left: 8%;"></i>
+        <i class="fas fa-headset icon-ornament float-4 text-5xl text-teal-500/15" style="bottom: 15%; right: 8%;"></i>
+      </div>
+
+      <div class="max-w-7xl mx-auto w-full relative z-10">
+        <div class="text-center mb-10">
+          <h2 class="text-4xl sm:text-5xl font-bold text-slate-800 mb-4">Hubungi Kami</h2>
+          <p class="text-slate-600 text-lg max-w-2xl mx-auto">Ada pertanyaan atau saran? Tim kami siap membantu Anda!</p>
+        </div>
+
+        <div class="grid lg:grid-cols-5 gap-6 mb-12 sm:mb-16">
+          <!-- Contact Form - Wider -->
+          <div class="lg:col-span-3 glass-card rounded-3xl p-8">
+            <h3 class="text-2xl font-bold text-slate-800 mb-6">Kirim Pesan</h3>
+            <form onsubmit="event.preventDefault(); alert('Pesan terkirim! Terima kasih.');">
+              <div class="grid sm:grid-cols-2 gap-4 mb-4">
+                <div>
+                  <label class="block text-slate-700 font-medium text-sm mb-2">Nama</label>
+                  <input type="text" placeholder="Nama lengkap" class="w-full border-2 border-slate-200 p-3 rounded-xl focus:border-cyan-500 focus:ring-4 focus:ring-cyan-100 transition-all" required>
+                </div>
+                <div>
+                  <label class="block text-slate-700 font-medium text-sm mb-2">Email</label>
+                  <input type="email" placeholder="email@contoh.com" class="w-full border-2 border-slate-200 p-3 rounded-xl focus:border-cyan-500 focus:ring-4 focus:ring-cyan-100 transition-all" required>
+                </div>
+              </div>
+              <div class="mb-4">
+                <label class="block text-slate-700 font-medium text-sm mb-2">Subjek</label>
+                <select class="w-full border-2 border-slate-200 p-3 rounded-xl focus:border-cyan-500 focus:ring-4 focus:ring-cyan-100 transition-all">
+                  <option value="">Pilih subjek</option>
+                  <option value="pertanyaan">Pertanyaan Umum</option>
+                  <option value="saran">Saran & Masukan</option>
+                  <option value="bug">Laporan Bug</option>
+                  <option value="kerjasama">Kerjasama</option>
+                </select>
+              </div>
+              <div class="mb-6">
+                <label class="block text-slate-700 font-medium text-sm mb-2">Pesan</label>
+                <textarea rows="5" placeholder="Tulis pesan Anda di sini..." class="w-full border-2 border-slate-200 p-3 rounded-xl focus:border-cyan-500 focus:ring-4 focus:ring-cyan-100 transition-all resize-none" required></textarea>
+              </div>
+              <button type="submit" class="w-full btn-primary text-white px-6 py-4 rounded-xl font-semibold flex items-center justify-center gap-2 text-lg">
+                <i class="fas fa-paper-plane"></i>
+                <span>Kirim Pesan</span>
+              </button>
+            </form>
+          </div>
+
+          <!-- Contact Info Cards -->
+          <div class="lg:col-span-2 space-y-6">
+            <div class="glass-card rounded-2xl p-6 hover:scale-105 transition-transform">
+              <div class="flex items-center gap-4">
+                <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-cyan-500 to-cyan-600 flex items-center justify-center flex-shrink-0 shadow-lg shadow-cyan-500/30">
+                  <i class="fas fa-envelope text-white text-xl"></i>
+                </div>
+                <div>
+                  <h4 class="font-bold text-slate-800 text-lg">Email</h4>
+                  <p class="text-slate-600">support@temukarir.com</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="glass-card rounded-2xl p-6 hover:scale-105 transition-transform">
+              <div class="flex items-center gap-4">
+                <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center flex-shrink-0 shadow-lg shadow-emerald-500/30">
+                  <i class="fab fa-whatsapp text-white text-2xl"></i>
+                </div>
+                <div>
+                  <h4 class="font-bold text-slate-800 text-lg">WhatsApp</h4>
+                  <p class="text-slate-600">+62 812-3456-7890</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="glass-card rounded-2xl p-6 hover:scale-105 transition-transform">
+              <div class="flex items-center gap-4">
+                <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center flex-shrink-0 shadow-lg shadow-purple-500/30">
+                  <i class="fas fa-clock text-white text-xl"></i>
+                </div>
+                <div>
+                  <h4 class="font-bold text-slate-800 text-lg">Jam Operasional</h4>
+                  <p class="text-slate-600">Senin - Jumat, 09:00 - 17:00 WIB</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Social Media -->
+            <div class="glass-card rounded-2xl p-6">
+              <h4 class="font-bold text-slate-800 mb-4">Ikuti Kami</h4>
+              <div class="flex gap-3">
+                <a href="#" class="w-12 h-12 rounded-xl bg-gradient-to-br from-pink-500 to-rose-500 flex items-center justify-center text-white hover:scale-110 transition-transform shadow-lg shadow-pink-500/30">
+                  <i class="fab fa-instagram text-xl"></i>
+                </a>
+                <a href="#" class="w-12 h-12 rounded-xl bg-gradient-to-br from-sky-400 to-sky-500 flex items-center justify-center text-white hover:scale-110 transition-transform shadow-lg shadow-sky-500/30">
+                  <i class="fab fa-twitter text-xl"></i>
+                </a>
+                <a href="#" class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-600 to-blue-700 flex items-center justify-center text-white hover:scale-110 transition-transform shadow-lg shadow-blue-500/30">
+                  <i class="fab fa-linkedin text-xl"></i>
+                </a>
+                <a href="#" class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white hover:scale-110 transition-transform shadow-lg shadow-blue-500/30">
+                  <i class="fab fa-facebook text-xl"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-sky-950 relative z-[60]">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div class="grid md:grid-cols-3 gap-8 items-center">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-400 to-teal-500 flex items-center justify-center shadow-lg shadow-cyan-500/20">
+              <i class="fas fa-briefcase text-white"></i>
+            </div>
+            <div>
+              <span class="text-lg font-bold text-white">Temu</span><span class="text-lg font-bold text-gradient">Karir</span>
+            </div>
+          </div>
+          <div class="flex items-center justify-center gap-6">
+            <a href="#tentang" class="text-sky-300/70 hover:text-white transition-colors text-sm">Tentang</a>
+            <a href="#privacy" class="text-sky-300/70 hover:text-white transition-colors text-sm">Privacy</a>
+            <a href="#terms" class="text-sky-300/70 hover:text-white transition-colors text-sm">Terms</a>
+            <a href="#contact" class="text-sky-300/70 hover:text-white transition-colors text-sm">Contact</a>
+          </div>
+          <div class="flex items-center justify-end gap-4">
+            <div class="flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-500/15 text-cyan-400 text-sm font-medium">
+              <i class="fas fa-robot"></i>
+              <span>Powered by AI</span>
+            </div>
+          </div>
+        </div>
+        <div class="mt-8 pt-6 border-t border-sky-800/50 text-center">
+          <p class="text-sky-400/60 text-sm">
+            &copy; 2026 TemuKarir. Dibuat dengan <i class="fas fa-heart text-rose-400"></i> & <i class="fas fa-mug-hot text-amber-400"></i> untuk membantu Anda menemukan karir impian.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+  </div><!-- end main-wrapper -->
+
+  <!-- Scroll Up Button -->
+  <a href="#" id="scrollTopBtn" class="fixed bottom-6 left-6 w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 flex items-center justify-center text-white hover:bg-white/30 transition-all duration-300 z-50 shadow-lg">
+    <i class="fas fa-arrow-up text-sm"></i>
+  </a>
+
+  <script>
+    // Hide scroll button when near footer
+    const scrollBtn = document.getElementById('scrollTopBtn');
+    const footer = document.querySelector('footer');
+
+    window.addEventListener('scroll', () => {
+      const footerRect = footer.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+
+      // Hide button when footer is visible (within 100px of viewport bottom)
+      if (footerRect.top < windowHeight - 50) {
+        scrollBtn.style.opacity = '0';
+        scrollBtn.style.pointerEvents = 'none';
+      } else {
+        scrollBtn.style.opacity = '1';
+        scrollBtn.style.pointerEvents = 'auto';
+      }
+    });
+
+    // Custom smooth scroll with easing
+    function smoothScrollToTop(duration = 800) {
+      const start = window.pageYOffset;
+      const startTime = performance.now();
+
+      function easeOutCubic(t) {
+        return 1 - Math.pow(1 - t, 3);
+      }
+
+      function scroll() {
+        const currentTime = performance.now();
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+
+        window.scrollTo(0, start * (1 - easeOutCubic(progress)));
+
+        if (progress < 1) {
+          requestAnimationFrame(scroll);
+        }
+      }
+
+      requestAnimationFrame(scroll);
+    }
+
+    // Smooth scroll to top
+    scrollBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      smoothScrollToTop(1000); // 1 second duration
+    });
+
+    // Mobile menu toggle
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const menuIcon = document.getElementById('menuIcon');
+    const mobileLinks = document.querySelectorAll('.mobile-link');
+
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+      if (mobileMenu.classList.contains('hidden')) {
+        menuIcon.classList.remove('fa-times');
+        menuIcon.classList.add('fa-bars');
+      } else {
+        menuIcon.classList.remove('fa-bars');
+        menuIcon.classList.add('fa-times');
+      }
+    });
+
+    // Close menu when clicking a link
+    mobileLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+        menuIcon.classList.remove('fa-times');
+        menuIcon.classList.add('fa-bars');
+      });
+    });
+  </script>
+
+  <script type="module">
+    import {
+      Client,
+      handle_file,
+    } from "https://cdn.jsdelivr.net/npm/@gradio/client/dist/index.min.js";
+
+    let client;
+
+    async function init() {
+      try {
+        client = await Client.connect("Dayat555/JoobSeeker");
+        console.log("Connected to Gradio");
+      } catch (error) {
+        console.error("Failed to connect:", error);
+        showResult(
+          `<div class="flex flex-col items-center justify-center h-full py-12">
+            <div class="w-20 h-20 rounded-2xl bg-red-100 flex items-center justify-center mb-4">
+              <i class="fas fa-exclamation-triangle text-3xl text-red-500"></i>
+            </div>
+            <h3 class="text-red-600 font-semibold mb-2">Koneksi Gagal</h3>
+            <p class="text-slate-400 text-sm text-center max-w-xs">${error.message}</p>
+            <button onclick="location.reload()" class="mt-4 px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-lg text-slate-600 text-sm font-medium transition-colors">
+              <i class="fas fa-redo mr-2"></i>Coba Lagi
+            </button>
+          </div>`,
+          true
+        );
+      }
+    }
+
+    init();
+
+    function updateFileName() {
+      const fileInput = document.getElementById("cvfile");
+      const fileLabel = document.getElementById("file-label");
+      const dropzone = document.getElementById("dropzone");
+
+      if (fileInput.files.length > 0) {
+        fileLabel.innerHTML =
+          '<div class="flex items-center justify-center gap-2"><i class="fas fa-check-circle text-emerald-500"></i><span class="text-emerald-700 font-medium">' +
+          fileInput.files[0].name + '</span></div>';
+        dropzone.classList.add("border-emerald-400", "bg-emerald-50/50");
+        dropzone.classList.remove("border-slate-200");
+
+        // Update step indicator
+        const step2 = document.getElementById("step2");
+        if (step2) {
+          step2.classList.remove("bg-slate-200", "text-slate-500");
+          step2.classList.add("bg-cyan-500", "text-white", "shadow-lg", "shadow-cyan-500/30");
+        }
+      }
+    }
+
+    // Drag and drop handlers
+    const dropzone = document.getElementById("dropzone");
+    const fileInput = document.getElementById("cvfile");
+
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+      dropzone.addEventListener(eventName, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+      }, false);
+    });
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+      dropzone.addEventListener(eventName, () => {
+        dropzone.classList.add('border-cyan-400', 'bg-cyan-50');
+      }, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+      dropzone.addEventListener(eventName, () => {
+        dropzone.classList.remove('border-cyan-400', 'bg-cyan-50');
+      }, false);
+    });
+
+    dropzone.addEventListener('drop', (e) => {
+      const files = e.dataTransfer.files;
+      if (files.length > 0 && files[0].type === 'application/pdf') {
+        fileInput.files = files;
+        updateFileName();
+      } else {
+        alert('Hanya file PDF yang diperbolehkan');
+      }
+    });
+
+    // Click to open file picker
+    dropzone.addEventListener('click', (e) => {
+      if (e.target !== fileInput) {
+        fileInput.click();
+      }
+    });
+
+    function setLoading(buttonId, loading, originalHtml) {
+      const btn = document.getElementById(buttonId);
+      if (loading) {
+        btn.disabled = true;
+        btn.innerHTML = '<span class="loading"></span><span class="ml-2">Memproses...</span>';
+        btn.style.opacity = "0.7";
+        btn.style.cursor = "not-allowed";
+      } else {
+        btn.disabled = false;
+        btn.innerHTML = originalHtml;
+        btn.style.opacity = "1";
+        btn.style.cursor = "pointer";
+      }
+    }
+
+    function showResult(content, isPlaceholder = false) {
+      const resultDiv = document.getElementById("result");
+      if (isPlaceholder) {
+        resultDiv.innerHTML = content;
+      } else {
+        resultDiv.innerHTML = `<div class="text-slate-700">${content}</div>`;
+      }
+    }
+
+    function formatJobResults(text, selectedRole) {
+      const lines = text.split("\n").filter((line) => line.trim());
+      const jobs = [];
+      let currentJob = null;
+      let currentField = null;
+
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i].trim();
+        const jobMatch = line.match(/^(\d+)\.\s+(.+)/);
+        if (jobMatch) {
+          if (currentJob) {
+            jobs.push(currentJob);
+          }
+          currentJob = {
+            number: jobMatch[1],
+            title: jobMatch[2],
+            company: "",
+            location: "",
+            link: "",
+          };
+          currentField = null;
+          continue;
+        }
+
+        if (!currentJob) continue;
+
+        if (line === "Perusahaan") {
+          currentField = "company";
+          continue;
+        } else if (line === "Lokasi") {
+          currentField = "location";
+          continue;
+        } else if (line === "Link lamaran") {
+          currentField = "link";
+          continue;
+        }
+
+        if (currentField && line) {
+          currentJob[currentField] = line;
+          currentField = null;
+        }
+      }
+
+      if (currentJob) {
+        jobs.push(currentJob);
+      }
+
+      if (jobs.length === 0) {
+        return `<div class="flex flex-col items-center justify-center h-full py-12">
+          <div class="w-20 h-20 rounded-2xl bg-slate-100 flex items-center justify-center mb-4">
+            <i class="fas fa-search text-3xl text-slate-300"></i>
+          </div>
+          <h3 class="text-slate-500 font-semibold mb-2">Tidak Ada Lowongan</h3>
+          <p class="text-slate-400 text-sm text-center max-w-xs">Tidak ditemukan lowongan untuk "${selectedRole}". Coba pilih profesi lain.</p>
+        </div>`;
+      }
+
+      let html = `
+        <div class="mb-6">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-teal-600 flex items-center justify-center">
+                <i class="fas fa-user-tie text-white"></i>
+              </div>
+              <div>
+                <p class="text-slate-800 font-bold">${selectedRole}</p>
+                <p class="text-slate-400 text-sm">${jobs.length} lowongan ditemukan</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-100 text-emerald-700 text-xs font-medium">
+              <i class="fas fa-check-circle"></i>
+              <span>Aktif</span>
+            </div>
+          </div>
+        </div>
+        <div class="space-y-3">
+      `;
+
+      jobs.forEach((job, idx) => {
+        const gradients = [
+          'from-cyan-500 to-teal-500',
+          'from-emerald-500 to-green-500',
+          'from-sky-500 to-blue-500',
+          'from-teal-500 to-cyan-500',
+          'from-blue-500 to-indigo-500',
+        ];
+        const gradient = gradients[idx % gradients.length];
+
+        html += `
+          <div class="job-card border border-slate-200 rounded-xl overflow-hidden hover:border-cyan-400 hover:shadow-lg hover:shadow-cyan-500/10 transition-all duration-300 bg-white group">
+            <div class="job-header flex items-center justify-between p-3 sm:p-4 cursor-pointer hover:bg-slate-50 transition-all" onclick="toggleJob(${idx})">
+              <div class="flex items-center gap-3 sm:gap-4 flex-1 min-w-0 overflow-hidden">
+                <div class="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br ${gradient} rounded-lg sm:rounded-xl flex items-center justify-center text-white font-bold shadow-lg text-sm sm:text-base">
+                  ${job.number}
+                </div>
+                <div class="flex-1 min-w-0 overflow-hidden">
+                  <p class="font-semibold text-slate-800 truncate group-hover:text-cyan-600 transition-colors text-sm sm:text-base">${job.title}</p>
+                  <div class="flex flex-col sm:flex-row sm:items-center sm:gap-3 mt-1">
+                    <span class="text-xs sm:text-sm text-slate-500 truncate flex items-center gap-1">
+                      <i class="fas fa-building text-slate-400 text-xs"></i>
+                      <span class="truncate">${job.company || "Perusahaan"}</span>
+                    </span>
+                    <span class="text-slate-300 hidden sm:inline">•</span>
+                    <span class="text-xs sm:text-sm text-slate-500 truncate flex items-center gap-1">
+                      <i class="fas fa-map-marker-alt text-slate-400 text-xs"></i>
+                      <span class="truncate">${job.location || "Indonesia"}</span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="flex-shrink-0 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-slate-100 flex items-center justify-center group-hover:bg-cyan-100 transition-colors ml-2">
+                <i class="fas fa-chevron-down text-slate-400 group-hover:text-cyan-600 transition-all text-xs sm:text-sm job-chevron-${idx}"></i>
+              </div>
+            </div>
+            <div class="job-detail hidden border-t border-slate-100 bg-gradient-to-br from-slate-50 to-white" id="job-detail-${idx}">
+              <div class="p-3 sm:p-5">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-4 sm:mb-5">
+                  <div class="flex items-start gap-3 p-3 rounded-lg bg-white border border-slate-100">
+                    <div class="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center flex-shrink-0">
+                      <i class="fas fa-building text-blue-500"></i>
+                    </div>
+                    <div>
+                      <p class="text-xs text-slate-400 font-medium uppercase tracking-wider">Perusahaan</p>
+                      <p class="text-slate-700 font-medium">${job.company || "-"}</p>
+                    </div>
+                  </div>
+                  <div class="flex items-start gap-3 p-3 rounded-lg bg-white border border-slate-100">
+                    <div class="w-10 h-10 rounded-lg bg-emerald-100 flex items-center justify-center flex-shrink-0">
+                      <i class="fas fa-map-marker-alt text-emerald-500"></i>
+                    </div>
+                    <div>
+                      <p class="text-xs text-slate-400 font-medium uppercase tracking-wider">Lokasi</p>
+                      <p class="text-slate-700 font-medium">${job.location || "-"}</p>
+                    </div>
+                  </div>
+                </div>
+                ${job.link ? `
+                <a href="${job.link}" target="_blank" rel="noopener" class="flex items-center justify-center gap-2 sm:gap-3 w-full bg-gradient-to-r from-cyan-500 to-teal-600 text-white px-4 sm:px-6 py-3 sm:py-3.5 rounded-xl font-semibold hover:from-cyan-600 hover:to-teal-700 transition-all shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 hover:-translate-y-0.5 text-sm sm:text-base">
+                  <i class="fas fa-paper-plane"></i>
+                  <span>Lamar Sekarang</span>
+                  <i class="fas fa-arrow-right text-xs sm:text-sm"></i>
+                </a>
+                ` : `
+                <div class="flex items-center justify-center gap-2 w-full bg-slate-100 text-slate-500 px-4 sm:px-6 py-3 sm:py-3.5 rounded-xl font-medium text-sm sm:text-base">
+                  <i class="fas fa-info-circle"></i>
+                  <span>Link lamaran tidak tersedia</span>
+                </div>
+                `}
+              </div>
+            </div>
+          </div>
+        `;
+      });
+
+      html += "</div>";
+      return html;
+    }
+
+    function toggleJob(idx) {
+      const detail = document.getElementById(`job-detail-${idx}`);
+      const chevron = document.querySelector(`.job-chevron-${idx}`);
+      const isCurrentlyHidden = detail.classList.contains("hidden");
+
+      document.querySelectorAll(".job-detail").forEach((el) => {
+        el.classList.add("hidden");
+      });
+      document.querySelectorAll('[class*="job-chevron-"]').forEach((el) => {
+        el.classList.remove("rotate-180");
+      });
+
+      if (isCurrentlyHidden) {
+        detail.classList.remove("hidden");
+        chevron.classList.add("rotate-180");
+      }
+    }
+
+    async function analyzeCV() {
+      const fileInput = document.getElementById("cvfile");
+      const originalHtml =
+        '<i class="fas fa-wand-magic-sparkles"></i><span>Analisis CV dengan AI</span>';
+
+      if (fileInput.files.length === 0) {
+        alert("Upload CV dulu");
+        return;
+      }
+
+      setLoading("analyzeBtn", true);
+      showResult(
+        `<div class="flex flex-col items-center justify-center h-full py-12">
+          <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-cyan-100 to-teal-100 flex items-center justify-center mb-4 animate-pulse">
+            <i class="fas fa-cog fa-spin text-3xl text-cyan-600"></i>
+          </div>
+          <h3 class="text-slate-700 font-semibold mb-2">Menganalisis CV...</h3>
+          <p class="text-slate-400 text-sm text-center max-w-xs">AI sedang membaca dan memahami CV Anda. Mohon tunggu sebentar.</p>
+        </div>`,
+        true
+      );
+
+      try {
+        const file = fileInput.files[0];
+        const pdfBlob = new Blob([await file.arrayBuffer()], {
+          type: "application/pdf",
+        });
+        const pdfFile = new File([pdfBlob], file.name, {
+          type: "application/pdf",
+        });
+
+        const result = await client.predict("/analyze_cv", {
+          file: handle_file(pdfFile),
+        });
+
+        console.log("Full result:", result);
+        console.log("result.data:", result.data);
+
+        const dropdown = document.getElementById("roles");
+        dropdown.innerHTML = "";
+
+        const data = result.data[0];
+        console.log("data:", data);
+
+        let roleList = data.choices || [];
+        console.log("roleList:", roleList);
+
+        roleList.forEach((role, index) => {
+          const option = document.createElement("option");
+          const roleValue = Array.isArray(role) ? role[0] : role;
+          option.value = roleValue;
+          option.textContent = roleValue;
+          dropdown.appendChild(option);
+        });
+
+        // Update step indicators
+        const step2El = document.getElementById("step2");
+        const step3El = document.getElementById("step3");
+        if (step2El) {
+          step2El.classList.remove("bg-slate-200", "text-slate-500");
+          step2El.classList.add("bg-cyan-500", "text-white", "shadow-lg", "shadow-cyan-500/30");
+        }
+        if (step3El) {
+          step3El.classList.remove("bg-slate-200", "text-slate-500");
+          step3El.classList.add("bg-emerald-500", "text-white", "shadow-lg", "shadow-emerald-500/30");
+        }
+
+        showResult(
+          `<div class="flex flex-col items-center justify-center h-full py-12">
+            <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-emerald-100 to-teal-100 flex items-center justify-center mb-4">
+              <i class="fas fa-check-circle text-4xl text-emerald-500"></i>
+            </div>
+            <h3 class="text-emerald-700 font-semibold mb-2">CV Berhasil Dianalisis!</h3>
+            <p class="text-slate-400 text-sm text-center max-w-xs mb-4">Kami menemukan ${roleList.length} profesi yang cocok dengan keahlian Anda.</p>
+            <div class="flex flex-wrap justify-center gap-2 max-w-md">
+              ${roleList.slice(0, 5).map(role => `<span class="px-3 py-1 bg-cyan-100 text-cyan-700 rounded-full text-xs font-medium">${Array.isArray(role) ? role[0] : role}</span>`).join('')}
+              ${roleList.length > 5 ? `<span class="px-3 py-1 bg-slate-100 text-slate-600 rounded-full text-xs font-medium">+${roleList.length - 5} lainnya</span>` : ''}
+            </div>
+            <p class="text-slate-500 text-sm mt-6 flex items-center gap-2">
+              <i class="fas fa-arrow-left text-cyan-500"></i>
+              Pilih profesi dan klik "Cari Lowongan"
+            </p>
+          </div>`,
+          true
+        );
+      } catch (error) {
+        console.error("Error analyzeCV:", error);
+        showResult(
+          `<div class="flex flex-col items-center justify-center h-full py-12">
+            <div class="w-20 h-20 rounded-2xl bg-red-100 flex items-center justify-center mb-4">
+              <i class="fas fa-exclamation-circle text-3xl text-red-500"></i>
+            </div>
+            <h3 class="text-red-600 font-semibold mb-2">Terjadi Kesalahan</h3>
+            <p class="text-slate-400 text-sm text-center max-w-xs">${error.message}</p>
+            <button onclick="location.reload()" class="mt-4 px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-lg text-slate-600 text-sm font-medium transition-colors">
+              <i class="fas fa-redo mr-2"></i>Coba Lagi
+            </button>
+          </div>`,
+          true
+        );
+      }
+
+      setLoading("analyzeBtn", false, originalHtml);
+    }
+
+    async function searchJob() {
+      const role = document.getElementById("roles").value;
+      const originalHtml =
+        '<i class="fas fa-magnifying-glass"></i><span>Cari Lowongan Pekerjaan</span>';
+
+      if (!role) {
+        alert("Pilih profesi dulu");
+        return;
+      }
+
+      setLoading("searchBtn", true);
+      showResult(
+        `<div class="flex flex-col items-center justify-center h-full py-12">
+          <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-emerald-100 to-teal-100 flex items-center justify-center mb-4 animate-pulse">
+            <i class="fas fa-search fa-beat text-3xl text-emerald-500"></i>
+          </div>
+          <h3 class="text-slate-700 font-semibold mb-2">Mencari Lowongan...</h3>
+          <p class="text-slate-400 text-sm text-center max-w-xs">Sedang mencari lowongan ${role} yang tersedia.</p>
+        </div>`,
+        true
+      );
+
+      try {
+        const result = await client.predict("/search_selected_job", {
+          role: role,
+        });
+        console.log("Search result:", result);
+        const jobText = result.data[0];
+        const formattedHtml = formatJobResults(jobText, role);
+        showResult(formattedHtml);
+      } catch (error) {
+        console.error("Error searchJob:", error);
+        showResult(
+          `<div class="flex flex-col items-center justify-center h-full py-12">
+            <div class="w-20 h-20 rounded-2xl bg-red-100 flex items-center justify-center mb-4">
+              <i class="fas fa-exclamation-circle text-3xl text-red-500"></i>
+            </div>
+            <h3 class="text-red-600 font-semibold mb-2">Terjadi Kesalahan</h3>
+            <p class="text-slate-400 text-sm text-center max-w-xs">${error.message}</p>
+            <button onclick="searchJob()" class="mt-4 px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-lg text-slate-600 text-sm font-medium transition-colors">
+              <i class="fas fa-redo mr-2"></i>Coba Lagi
+            </button>
+          </div>`,
+          true
+        );
+      }
+
+      setLoading("searchBtn", false, originalHtml);
+    }
+
+    // Expose functions to global scope for onclick handlers
+    window.updateFileName = updateFileName;
+    window.analyzeCV = analyzeCV;
+    window.searchJob = searchJob;
+    window.toggleJob = toggleJob;
+  </script>
+</body>
+
+</html>
